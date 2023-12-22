@@ -1,8 +1,11 @@
-import express, { Application, Request, Response } from 'express'
+import express, { Application, NextFunction, Request, Response } from 'express'
 import cors from 'cors'
-import globalErrorHandler from './app/middlewares/globalErrorhandler'
+import { courseRoutes } from './app/modules/course/course.route'
+import { categoriesRoutes } from './app/modules/category/category.route'
+import { reviewRoutes } from './app/modules/review/review.route'
+import globalErrorHandler from './app/middlewares/globalErrorHandler'
 import notFound from './app/middlewares/notFound'
-import router from './app/router'
+
 const app: Application = express()
 
 app.use(express.json())
@@ -12,12 +15,11 @@ app.get('/', (req: Request, res: Response) => {
   res.send('Hello World!')
 })
 
-app.use('/api', router)
+app.use('/api', courseRoutes)
+app.use('/api', categoriesRoutes)
+app.use('/api', reviewRoutes)
 
 app.use(globalErrorHandler)
-
-//Not Found
-
 app.use(notFound)
 
 export default app

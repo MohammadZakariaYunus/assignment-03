@@ -1,21 +1,16 @@
-import { ZodError, ZodIssue } from 'zod'
-import { TErrorSources, TGenericErrorResponse } from '../interface/error'
+class AppError extends Error {
+  public statusCode: number
 
-const handleZodError = (err: ZodError): TGenericErrorResponse => {
-  const errorSources: TErrorSources = err.issues.map((issue: ZodIssue) => {
-    return {
-      path: issue?.path[issue.path.length - 1],
-      message: issue.message,
+  constructor(statusCode: number, message: string, stack = '') {
+    super(message)
+    this.statusCode = statusCode
+
+    if (stack) {
+      this.stack = stack
+    } else {
+      Error.captureStackTrace(this, this.constructor)
     }
-  })
-
-  const statusCode = 400
-
-  return {
-    statusCode,
-    message: 'Validation Error',
-    errorSources,
   }
 }
 
-export default handleZodError
+export default AppError

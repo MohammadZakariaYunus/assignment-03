@@ -1,11 +1,10 @@
 import { Schema, model } from 'mongoose'
-import { TCourse, TDetails, TTags } from './course.interface'
+import { TTags, TDetails } from './course.interface'
 
-const tagsScheme = new Schema<TTags>({
+const tagsSchema = new Schema<TTags>({
   name: {
     type: String,
     required: true,
-    trim: true,
   },
   isDeleted: {
     type: Boolean,
@@ -13,13 +12,9 @@ const tagsScheme = new Schema<TTags>({
   },
 })
 
-const courseDetailsScheme = new Schema<TDetails>({
+const detailsSchema = new Schema<TDetails>({
   level: {
     type: String,
-    enum: {
-      values: ['Beginner', 'Intermediate', 'Advanced'],
-      message: '{VALUE} is not a valid level',
-    },
     required: true,
   },
   description: {
@@ -28,11 +23,7 @@ const courseDetailsScheme = new Schema<TDetails>({
   },
 })
 
-const courseScheme = new Schema<TCourse>({
-  _id: {
-    type: Schema.Types.ObjectId,
-    required: true,
-  },
+const courseSchema = new Schema({
   title: {
     type: String,
     required: true,
@@ -43,14 +34,14 @@ const courseScheme = new Schema<TCourse>({
   },
   categoryId: {
     type: Schema.Types.ObjectId,
-    required: true,
+    ref: 'Category',
   },
   price: {
     type: Number,
     required: true,
   },
   tags: {
-    type: [tagsScheme],
+    type: [tagsSchema],
     required: true,
   },
   startDate: {
@@ -65,17 +56,23 @@ const courseScheme = new Schema<TCourse>({
     type: String,
     required: true,
   },
-  durationInWeeks: {
-    type: Number,
-    required: true,
-  },
-  details: {
-    courseDetailsScheme,
-  },
   provider: {
     type: String,
     required: true,
   },
+  durationInWeeks: {
+    type: Number,
+    required: true,
+  },
+  details: detailsSchema,
+  reviews: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Review',
+    },
+  ],
 })
 
-export const Course = model<TCourse>('Course', courseScheme)
+const CourseModel = model('Course', courseSchema)
+
+export default CourseModel

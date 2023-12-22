@@ -1,40 +1,64 @@
-import QueryBuilder from '../../../builder/QueryBuilder'
-import { CourseSearchableFields } from './course.constant'
+import CourseModel from './course.model'
 import { TCourse } from './course.interface'
-import { Course } from './course.model'
 
-const createCourseIntoDb = async (payload: TCourse) => {
-  const result = await Course.create(payload)
+const createCourseIntoDB = async (courseData: TCourse) => {
+  const result = await CourseModel.create(courseData)
+  return result
+}
+const getCourseIntoDB = async () => {
+  const result = await CourseModel.find().populate('reviews')
+  return result
+}
+const getSingleCourseIntoDB = async (id: string) => {
+  const result = await CourseModel.findById(id)
   return result
 }
 
-const getAllCoursesFromDb = async (query: Record<string, unknown>) => {
-  const courseQuery = new QueryBuilder(Course.find(), query)
-    .search(CourseSearchableFields)
-    .filter()
-    .sort()
-    .paginate()
-    .fields()
-  const result = await courseQuery.modelQuery
+// Update Data
+
+const updateCourseIntoDB = async (id: string, payload: Partial<TCourse>) => {
+  const { tags, details, ...remainingStudentData } = payload
+
+  const modifiedUpdatedData: Record<string, unknown> = {
+    ...remainingStudentData,
+  }
+
+  if (tags && Object.keys(tags).length) {
+    for (const [key, value] of Object.entries(tags)) {
+      modifiedUpdatedData[`tags.${key}`] = value
+    }
+  }
+
+  if (details && Object.keys(details).length) {
+    for (const [key, value] of Object.entries(details)) {
+      modifiedUpdatedData[`details.${key}`] = value
+    }
+  }
+
+  const result = await CourseModel.findByIdAndUpdate(id, modifiedUpdatedData, {
+    new: true,
+  })
   return result
 }
 
-const getSingleCourseFromDb = async (id: string) => {
-  const result = await Course.findById(id)
+// Get Single Data
+
+const getSingleCourseReviewIntoDB = async (id: string) => {
+  const result = await CourseModel.findById(id).populate('reviews')
   return result
 }
 
-const deleteCourseFromDb = async (id: string) => {
-  const result = await Course.findByIdAndUpdate(
-    id,
-    { isDeleted: true },
-    { new: true }
-  )
-  return result
-}
-export const courseService = {
-  createCourseIntoDb,
-  getAllCoursesFromDb,
-  getSingleCourseFromDb,
-  deleteCourseFromDb,
+// const getSingleCourseIntoDB = async (id: string) => {
+//   const course = await CourseModel.findById(id)
+//   const review = ReviewModel.findById(id).populate('courseId')
+//   const result = { course, review }
+//   return result
+// }
+
+export const courseServices = {
+  createCourseIntoDB,
+  getCourseIntoDB,
+  getSingleCourseIntoDB,
+  updateCourseIntoDB,
+  getSingleCourseReviewIntoDB,
 }
