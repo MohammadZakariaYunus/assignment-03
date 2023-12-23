@@ -62,7 +62,6 @@ const courseSchema = new Schema({
   },
   durationInWeeks: {
     type: Number,
-    required: true,
   },
   details: detailsSchema,
   reviews: [

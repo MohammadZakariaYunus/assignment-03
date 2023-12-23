@@ -26,7 +26,6 @@ const createCourseValidateSchema = z.object({
     endDate: z.string(),
     language: z.string(),
     provider: z.string().min(1),
-    durationInWeeks: z.number(),
     details: detailsValidationSchema,
     reviews: reviewValidationSchema.optional(),
   }),
@@ -55,7 +54,6 @@ const updateCourseValidateSchema = z.object({
     endDate: z.string().optional(),
     language: z.string().optional(),
     provider: z.string().min(1).optional(),
-    durationInWeeks: z.number().optional(),
     details: updateDetailsValidationSchema.optional(),
   }),
 })
