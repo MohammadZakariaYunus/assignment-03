@@ -1,18 +1,24 @@
-// const handleDuplicateError = (err: any) => {
-//   // Extract value within double quotes using regex
-//   const match = err.message.match(/"([^"]*)"/)
+import { TErrorSources, TGenericErrorResponse } from '../interface/error'
 
-//   // The extracted value will be in the first capturing group
-//   const extractedMessage = match && match[1]
+const handleDuplicateError = (err: any) => {
+  // Extract value within double quotes using regex
+  const match = err.message.match(/"([^"]*)"/)
 
-//   const errorMessage = `${extractedMessage} is already exists`
-//   const statusCode = 400
+  // The extracted value will be in the first capturing group
+  const extractedMessage = match && match[1]
 
-//   return {
-//     statusCode,
-//     message: 'Invalid ID',
-//     errorMessage,
-//   }
-// }
+  const errorMessage = {
+    path: '',
+    message: `${extractedMessage} is already exists`,
+  }
 
-// export default handleDuplicateError
+  const statusCode = 400
+
+  return {
+    statusCode,
+    message: 'Invalid ID',
+    errorMessage,
+  }
+}
+
+export default handleDuplicateError
