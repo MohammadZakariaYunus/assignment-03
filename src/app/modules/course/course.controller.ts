@@ -3,7 +3,6 @@ import { courseServices } from './course.service'
 import sendResponse from '../../../utils/sendResponse'
 import httpStatus from 'http-status'
 import catchAsync from '../../../utils/catchAsync'
-import ReviewModel from '../review/review.model'
 
 const createCourse: RequestHandler = catchAsync(async (req, res) => {
   const courseData = req.body
@@ -17,7 +16,7 @@ const createCourse: RequestHandler = catchAsync(async (req, res) => {
 })
 
 const getCourse: RequestHandler = catchAsync(async (req, res) => {
-  const result = await courseServices.getCourseIntoDB()
+  const result = await courseServices.getCourseIntoDB(req.query)
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -25,6 +24,7 @@ const getCourse: RequestHandler = catchAsync(async (req, res) => {
     data: result,
   })
 })
+
 const getSingleCourse: RequestHandler = catchAsync(async (req, res) => {
   const { courseId } = req.params
   const result = await courseServices.getSingleCourseIntoDB(courseId)
@@ -38,10 +38,6 @@ const getSingleCourse: RequestHandler = catchAsync(async (req, res) => {
 
 const updateCourse: RequestHandler = catchAsync(async (req, res) => {
   const { courseId } = req.params
-  // Remove the following line
-  // const { courseData } = req.body;
-
-  // Use req.body directly
   const result = await courseServices.updateCourseIntoDB(courseId, req.body)
 
   sendResponse(res, {
@@ -63,10 +59,21 @@ const getSingleCourseReview: RequestHandler = catchAsync(async (req, res) => {
   })
 })
 
+const getBestCourse: RequestHandler = catchAsync(async (req, res) => {
+  const result = await courseServices.getBestCourse()
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    // message: 'Category created successfully',
+    data: result,
+  })
+})
+
 export const courseController = {
   createCourse,
   getCourse,
   updateCourse,
   getSingleCourse,
   getSingleCourseReview,
+  getBestCourse,
 }

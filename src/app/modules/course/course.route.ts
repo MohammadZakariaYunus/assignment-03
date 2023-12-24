@@ -10,8 +10,8 @@ router.post(
   validateRequest(courseValidateSchema.createCourseValidateSchema),
   courseController.createCourse
 )
-
 router.get('/course', courseController.getCourse)
+router.get('/course/best', courseController.getBestCourse)
 router.get('/course/:courseId', courseController.getSingleCourse)
 router.put(
   '/course/:courseId',
