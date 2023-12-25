@@ -12,7 +12,7 @@ app.use(express.json())
 app.use(cors())
 
 app.get('/', (req: Request, res: Response) => {
-  res.send('Hello World!')
+  res.send('Course Reviews....')
 })
 
 app.use('/api', courseRoutes)
