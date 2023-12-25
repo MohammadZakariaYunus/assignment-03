@@ -28,29 +28,9 @@ const createCourseIntoDB = async (courseData: TCourse) => {
 //
 
 const getCourseIntoDB = async (query: Record<string, unknown>) => {
-  const queryObj = { ...query }
-  const searchableField = ['title', 'instructor', 'language', 'provider']
-  let searchTerm = ''
-  if (query?.searchTerm) {
-    searchTerm = query?.searchTerm as string
-  }
-  const searchQuery = CourseModel.find({
-    $or: searchableField.map(field => ({
-      [field]: { $regex: searchTerm, $options: 'i' },
-    })),
-  })
-  const excludeFields = ['searchTerm', 'sort']
-  excludeFields.forEach(el => delete queryObj[el])
-  const filterQuery = await searchQuery.find(queryObj)
+  const result = await CourseModel.find()
 
-  let sort = '-details'
-
-  if (query.sort) {
-    sort = query.sort as string
-  }
-
-  const sortQuery = await filterQuery.sort(sort)
-  return sortQuery
+  return result
 }
 
 //
