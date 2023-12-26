@@ -89,9 +89,9 @@ const getBestCourse = async () => {
     {
       $group: {
         _id: '$_id',
+        course: { $first: '$$ROOT' },
         averageRating: { $avg: '$reviews.rating' },
         reviewCount: { $sum: 1 },
-        course: { $first: '$$ROOT' },
       },
     },
     {

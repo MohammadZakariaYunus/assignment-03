@@ -4,6 +4,8 @@ import sendResponse from '../../../utils/sendResponse'
 import httpStatus from 'http-status'
 import catchAsync from '../../../utils/catchAsync'
 
+// Creating Category
+
 const createCategory: RequestHandler = async (req, res, next) => {
   try {
     const result = await categoryServices.createCategoryIntoDB(req.body)
@@ -18,6 +20,8 @@ const createCategory: RequestHandler = async (req, res, next) => {
     next(err)
   }
 }
+
+// Get All Category
 
 const getAllCategories: RequestHandler = catchAsync(async (req, res) => {
   const result = await categoryServices.getAllCategoriesFromDB()

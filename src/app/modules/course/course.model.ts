@@ -72,6 +72,17 @@ const courseSchema = new Schema({
   ],
 })
 
+courseSchema.pre('save', async function (next) {
+  const isCourseExists = await CourseModel.findOne({
+    title: this.title,
+  })
+
+  if (isCourseExists) {
+    throw new Error('Course is already exists !')
+  }
+  next()
+})
+
 const CourseModel = model('Course', courseSchema)
 
 export default CourseModel

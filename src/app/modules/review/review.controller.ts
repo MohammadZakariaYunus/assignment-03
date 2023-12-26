@@ -11,7 +11,7 @@ const createReview: RequestHandler = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Category created successfully',
+    message: 'Review created successfully',
     data: result,
   })
 })

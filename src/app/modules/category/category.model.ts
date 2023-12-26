@@ -1,6 +1,8 @@
 import { Schema, model } from 'mongoose'
 import { TCategory } from './category.interface'
 
+// categorySchema
+
 const categorySchema = new Schema<TCategory>({
   name: {
     type: String,

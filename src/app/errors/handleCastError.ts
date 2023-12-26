@@ -1,10 +1,15 @@
 import mongoose from 'mongoose'
+import { TErrorSources, TGenericErrorResponse } from '../interface/error'
 
-const handleCastError = (err: mongoose.Error.CastError) => {
-  const errorMessage = {
-    path: err.path,
-    message: err.message,
-  }
+const handleCastError = (
+  err: mongoose.Error.CastError
+): TGenericErrorResponse => {
+  const errorMessage: TErrorSources = [
+    {
+      path: err.path,
+      message: err.message,
+    },
+  ]
 
   const statusCode = 400
 
