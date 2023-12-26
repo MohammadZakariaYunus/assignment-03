@@ -1,5 +1,11 @@
 import CourseModel from './course.model'
 import { TCourse } from './course.interface'
+import { query } from 'express'
+import { Query } from 'mongoose'
+import { TQueryObj } from '../../helpers/TQueryObj'
+import { filter } from '../../helpers/filterHelpers'
+import { search } from '../../helpers/searchHelpers'
+import { getQuery } from '../../helpers/getQuery'
 
 const calculateDurationInWeeks = (
   startDate: string,
@@ -27,9 +33,8 @@ const createCourseIntoDB = async (courseData: TCourse) => {
 
 //
 
-const getCourseIntoDB = async (query: Record<string, unknown>) => {
-  const result = await CourseModel.find()
-
+const getCourseIntoDB = async (query: any) => {
+  const result = await getQuery(CourseModel.find(), query)
   return result
 }
 

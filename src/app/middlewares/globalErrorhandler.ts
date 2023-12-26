@@ -2,16 +2,13 @@
 /* eslint-disable no-unused-vars */
 import { ErrorRequestHandler } from 'express'
 import { ZodError } from 'zod'
-import config from '../config'
 import AppError from '../errors/AppError'
 import handleCastError from '../errors/handleCastError'
 import handleDuplicateError from '../errors/handleDuplicateError'
 import handleValidationError from '../errors/handleValidationError'
 import handleZodError from '../errors/handleZodError'
-import { TErrorSources } from '../interface/error'
 
 const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
-  //setting default values
   let statusCode = 500
   let message = 'Something went wrong!'
   let errorMessage: any = {
@@ -65,14 +62,3 @@ const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
 }
 
 export default globalErrorHandler
-
-//pattern
-/*
-success
-message
-errorSources:[
-  path:'',
-  message:''
-]
-stack
-*/
