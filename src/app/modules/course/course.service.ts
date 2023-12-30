@@ -1,11 +1,6 @@
-import CourseModel from './course.model'
-import { TCourse } from './course.interface'
-import { query } from 'express'
-import { Query } from 'mongoose'
-import { TQueryObj } from '../../helpers/TQueryObj'
-import { filter } from '../../helpers/filterHelpers'
-import { search } from '../../helpers/searchHelpers'
 import { getQuery } from '../../helpers/getQuery'
+import { TCourse } from './course.interface'
+import CourseModel from './course.model'
 
 const calculateDurationInWeeks = (
   startDate: string,
@@ -76,6 +71,14 @@ const getSingleCourseReviewIntoDB = async (id: string) => {
 const getBestCourse = async () => {
   const result = await CourseModel.aggregate([
     {
+      $lookup: {
+        from: 'reviews',
+        localField: '_id',
+        foreignField: 'courseId',
+        as: 'reviews',
+      },
+    },
+    {
       $addFields: {
         reviews: { $ifNull: ['$reviews', []] },
       },
@@ -102,7 +105,7 @@ const getBestCourse = async () => {
     },
     {
       $project: {
-        _id: 1,
+        _id: '$course._id',
         reviewCount: 1,
         course: 1,
         averageRating: { $ifNull: ['$averageRating', 0] },

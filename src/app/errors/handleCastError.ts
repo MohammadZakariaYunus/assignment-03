@@ -7,7 +7,7 @@ const handleCastError = (
   const errorMessage: TErrorSources = [
     {
       path: err.path,
-      message: err.message,
+      message: `${err.value} is not a valid ID!`,
     },
   ]
 

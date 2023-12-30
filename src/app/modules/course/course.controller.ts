@@ -1,26 +1,34 @@
 import { RequestHandler } from 'express'
-import { courseServices } from './course.service'
-import sendResponse from '../../../utils/sendResponse'
 import httpStatus from 'http-status'
 import catchAsync from '../../../utils/catchAsync'
+import sendResponse from '../../../utils/sendResponse'
+import { courseServices } from './course.service'
 
 const createCourse: RequestHandler = catchAsync(async (req, res) => {
   const courseData = req.body
   const result = await courseServices.createCourseIntoDB(courseData)
   sendResponse(res, {
-    statusCode: httpStatus.OK,
+    statusCode: 201,
     success: true,
     message: 'Category created successfully',
     data: result,
   })
 })
 
-const getCourse: RequestHandler = catchAsync(async (req, res) => {
+const getCourses: RequestHandler = catchAsync(async (req, res) => {
   const result = await courseServices.getCourseIntoDB(req.query)
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
+  let page = Number(req.query.page)
+  let limit = Number(req.query.limit)
+  let total = Number(result.length)
+  res.status(200).json({
+    statusCode: 200,
     success: true,
     message: 'Courses retrieved successfully',
+    meta: {
+      page: page,
+      limit: limit || total,
+      total: total,
+    },
     data: result,
   })
 })
@@ -71,7 +79,7 @@ const getBestCourse: RequestHandler = catchAsync(async (req, res) => {
 
 export const courseController = {
   createCourse,
-  getCourse,
+  getCourses,
   updateCourse,
   getSingleCourse,
   getSingleCourseReview,
