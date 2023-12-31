@@ -1,5 +1,4 @@
 import { RequestHandler } from 'express'
-import httpStatus from 'http-status'
 import catchAsync from '../../../utils/catchAsync'
 import sendResponse from '../../../utils/sendResponse'
 import { courseServices } from './course.service'
@@ -36,8 +35,8 @@ const getCourses: RequestHandler = catchAsync(async (req, res) => {
 const getSingleCourse: RequestHandler = catchAsync(async (req, res) => {
   const { courseId } = req.params
   const result = await courseServices.getSingleCourseIntoDB(courseId)
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
+  res.status(200).json({
+    statusCode: 200,
     success: true,
     message: 'Course retrieved successfully',
     data: result,
@@ -47,8 +46,7 @@ const getSingleCourse: RequestHandler = catchAsync(async (req, res) => {
 const updateCourse: RequestHandler = catchAsync(async (req, res) => {
   const { courseId } = req.params
   const result = await courseServices.updateCourseIntoDB(courseId, req.body)
-
-  sendResponse(res, {
+  res.status(200).json({
     statusCode: 200,
     success: true,
     message: 'Course updated successfully',
@@ -59,7 +57,7 @@ const updateCourse: RequestHandler = catchAsync(async (req, res) => {
 const getSingleCourseReview: RequestHandler = catchAsync(async (req, res) => {
   const { courseId } = req.params
   const result = await courseServices.getSingleCourseReviewIntoDB(courseId)
-  sendResponse(res, {
+  res.status(200).json({
     statusCode: 200,
     success: true,
     message: 'Course and Reviews retrieved successfully',

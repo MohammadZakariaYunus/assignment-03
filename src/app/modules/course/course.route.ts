@@ -14,7 +14,7 @@ router.get('/courses', courseController.getCourses)
 router.get('/course/best', courseController.getBestCourse)
 router.get('/courses/:courseId', courseController.getSingleCourse)
 router.put(
-  '/course/:courseId',
+  '/courses/:courseId',
   validateRequest(courseValidateSchema.updateCourseValidateSchema),
   courseController.updateCourse
 )
