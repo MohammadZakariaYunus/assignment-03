@@ -105,7 +105,6 @@ const getBestCourse = async () => {
     },
     {
       $project: {
-        _id: '$course._id',
         reviewCount: 1,
         course: 1,
         averageRating: { $ifNull: ['$averageRating', 0] },

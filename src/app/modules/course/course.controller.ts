@@ -39,7 +39,7 @@ const getSingleCourse: RequestHandler = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    // message: 'Category created successfully',
+    message: 'Course retrieved successfully',
     data: result,
   })
 })
@@ -49,7 +49,7 @@ const updateCourse: RequestHandler = catchAsync(async (req, res) => {
   const result = await courseServices.updateCourseIntoDB(courseId, req.body)
 
   sendResponse(res, {
-    statusCode: httpStatus.OK,
+    statusCode: 200,
     success: true,
     message: 'Course updated successfully',
     data: result,
@@ -60,7 +60,7 @@ const getSingleCourseReview: RequestHandler = catchAsync(async (req, res) => {
   const { courseId } = req.params
   const result = await courseServices.getSingleCourseReviewIntoDB(courseId)
   sendResponse(res, {
-    statusCode: httpStatus.OK,
+    statusCode: 200,
     success: true,
     message: 'Course and Reviews retrieved successfully',
     data: result,
@@ -70,7 +70,7 @@ const getSingleCourseReview: RequestHandler = catchAsync(async (req, res) => {
 const getBestCourse: RequestHandler = catchAsync(async (req, res) => {
   const result = await courseServices.getBestCourse()
   sendResponse(res, {
-    statusCode: httpStatus.OK,
+    statusCode: 200,
     success: true,
     message: 'Best course retrieved successfully',
     data: result,
